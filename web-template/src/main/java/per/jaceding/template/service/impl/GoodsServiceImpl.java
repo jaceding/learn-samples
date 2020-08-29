@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import per.jaceding.template.domain.Goods;
 import per.jaceding.template.mapper.GoodsMapper;
 import per.jaceding.template.service.GoodsService;
@@ -90,8 +91,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             BeanUtil.copyProperties(goods, goodsVo);
             return goodsVo;
         }
-        log.info("修改商品信息");
-        throw new RuntimeException("修改商品信息异常");
+        log.info("修改商品信息失败");
+        throw new RuntimeException("修改商品信息失败");
     }
 
     @CacheEvict(allEntries = true, condition = "#id > 0")
@@ -124,7 +125,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      * </pre>
      */
     @Override
-    public String test1() {
+    public void test1() {
         GoodsVo goodsVo = new GoodsVo();
         goodsVo.setUserId(5);
         int i = ThreadLocalRandom.current().nextInt(10000);
@@ -133,6 +134,45 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goodsVo.setResidueNum(ThreadLocalRandom.current().nextInt(50));
 
         ((GoodsService) AopContext.currentProxy()).addGoods(goodsVo);
-        return "test";
+    }
+
+    /**
+     * 测试乐观锁（版本号）
+     * id为5的记录，初始库存和版本分别是 138 、21
+     * 使用JMeter模拟200次并发请求，错误率为91.5%，即成功17次
+     * 请求之后，id为5的记录，库存和版本分别是 155、38
+     * <p>
+     * 注意：不是每一次修改都会使得版本号+1，只有先查询出来再修改才会使得版本号+1
+     */
+    @Override
+    public void test2() {
+        Goods goods = getById(5);
+        log.info("goods = {}", goods);
+        goods.setResidueNum(goods.getResidueNum() + 1);
+        log.info("goods = {}", goods);
+        if (updateById(goods)) {
+            log.info("修改成功");
+            return;
+        }
+        log.info("修改商品信息失败");
+        throw new RuntimeException("修改商品信息失败");
+    }
+
+    /**
+     * 测试事务，发生异常后，数据回滚
+     */
+    @Transactional
+    @SuppressWarnings("all")
+    @Override
+    public void test3() {
+        Goods goods = getById(8);
+        goods.setResidueNum(goods.getResidueNum() + 1);
+        log.info("goods = {}", goods);
+        if (updateById(goods)) {
+            goods.setId(10 / 0);
+            return;
+        }
+        log.info("修改商品信息失败");
+        throw new RuntimeException("修改商品信息失败");
     }
 }

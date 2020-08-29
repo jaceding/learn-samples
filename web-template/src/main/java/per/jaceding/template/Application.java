@@ -1,5 +1,6 @@
 package per.jaceding.template;
 
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
@@ -9,6 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.ConfigurableEnvironment;
 import per.jaceding.common.annotation.AvoidScan;
 
@@ -20,8 +22,11 @@ import per.jaceding.common.annotation.AvoidScan;
  */
 @Slf4j
 @EnableAutoConfiguration
+@Import(value = {
+        SpringUtil.class
+})
 @ComponentScan(
-        basePackages = {"per.jaceding.template", "cn.hutool.extra.spring"},
+        basePackages = {"per.jaceding.template"},
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, value = AvoidScan.class),
                 @ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),

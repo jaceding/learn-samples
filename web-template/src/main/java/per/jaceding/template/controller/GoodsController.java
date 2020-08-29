@@ -93,9 +93,24 @@ public class GoodsController {
     }
 
     @ApiOperation("测试缓存失效")
-    @PostMapping("/test1/")
-    public Response<String> test1() {
-        return Response.success(goodsService.test1());
+    @PostMapping("/test1")
+    public Response<Object> test1() {
+        goodsService.test1();
+        return Response.success();
+    }
+
+    @ApiOperation("测试乐观锁（版本号）")
+    @PostMapping("/test2")
+    public Response<Object> test2() {
+        goodsService.test2();
+        return Response.success();
+    }
+
+    @ApiOperation("测试事务")
+    @PostMapping("/test3")
+    public Response<Object> test3() {
+        goodsService.test3();
+        return Response.success();
     }
 
     /**

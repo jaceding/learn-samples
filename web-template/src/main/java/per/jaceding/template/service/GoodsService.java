@@ -64,5 +64,15 @@ public interface GoodsService extends IService<Goods> {
     /**
      * 测试缓存失效
      */
-    String test1();
+    void test1();
+
+    /**
+     * 测试乐观锁（版本号）
+     */
+    void test2();
+
+    /**
+     * 测试事务
+     */
+    void test3();
 }
