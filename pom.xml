@@ -12,7 +12,7 @@
     <modules>
         <module>demo-kafka</module>
         <module>demo-netty</module>
-        <module>demo-juc</module>
+        <module>demo-java</module>
         <module>demo-web</module>
     </modules>
 
