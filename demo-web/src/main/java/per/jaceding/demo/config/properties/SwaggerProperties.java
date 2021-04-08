@@ -1,4 +1,4 @@
-package per.jaceding.template.config.properties;
+package per.jaceding.demo.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

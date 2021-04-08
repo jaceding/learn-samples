@@ -1,14 +1,14 @@
-package per.jaceding.template.config;
+package per.jaceding.demo.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.Api;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.util.CollectionUtils;
-import per.jaceding.template.config.properties.SwaggerProperties;
+import per.jaceding.demo.config.properties.SwaggerProperties;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
@@ -68,7 +68,7 @@ public class SwaggerConfiguration {
                 .select();
         String basePackage = swaggerProperties.getBasePackage();
         // 如果包路径为空，则默认扫描类上有@Api注解的类
-        if (StringUtils.isBlank(basePackage)) {
+        if (StrUtil.isBlank(basePackage)) {
             apiSelectorBuilder.apis(RequestHandlerSelectors.withClassAnnotation(Api.class));
         } else {
             // 扫描指定的包

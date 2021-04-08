@@ -1,4 +1,4 @@
-package per.jaceding.template.config;
+package per.jaceding.demo.config;
 
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement
 @Configuration
-@MapperScan("per.jaceding.template.mapper")
+@MapperScan("per.jaceding.demo.mapper")
 public class MybatisPlusConfiguration {
 
     /**

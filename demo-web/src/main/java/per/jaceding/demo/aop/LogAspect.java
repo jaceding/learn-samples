@@ -1,8 +1,8 @@
-package per.jaceding.template.aop;
+package per.jaceding.demo.aop;
 
+import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.entity.ContentType;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
@@ -97,7 +97,7 @@ public class LogAspect {
     private static Object getParams(HttpServletRequest request) {
         if (RequestMethod.GET.name().equals(request.getMethod())) {
             return getRequestParameter(request);
-        } else if (ContentType.APPLICATION_FORM_URLENCODED.getMimeType().equals(request.getContentType())) {
+        } else if (ContentType.FORM_URLENCODED.getValue().equals(request.getContentType())) {
             return getRequestParameter(request);
         } else {
             return getRequestInputStream(request);

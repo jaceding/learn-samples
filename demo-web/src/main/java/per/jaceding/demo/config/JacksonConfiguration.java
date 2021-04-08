@@ -1,4 +1,4 @@
-package per.jaceding.template.config;
+package per.jaceding.demo.config;
 
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonInclude;

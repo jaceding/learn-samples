@@ -1,4 +1,4 @@
-package per.jaceding.template.config;
+package per.jaceding.demo.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
