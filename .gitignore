@@ -110,13 +110,12 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
-### Example user template template
+### Example user template
 /**/logs/
 /**/rebel.xml
 /**/rebel-remote.xml
 /**/.rebel.xml.bak
 /**/.rebel-remote.xml.bak
-### Example user template
 
 # IntelliJ project files
 .idea
