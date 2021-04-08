@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Properties>
+        <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss:SSS} %-5level [%thread][%file:%line] - %msg%n"/>
+        <property name="LOG_HOME" value="./logs"/>
+        <property name="LOG_NAME" value="demo-netty"/>
+    </Properties>
+
+    <Appenders>
+
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        </console>
+
+        <RollingFile name="RollingFile" fileName="${LOG_HOME}/${LOG_NAME}.log"
+                     filePattern="${LOG_HOME}/${LOG_NAME}-%d{yyyy-MM-dd}_%i.log.gz">
+            <ThresholdFilter level="All" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="15"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="Console"/>
+            <appender-ref ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
