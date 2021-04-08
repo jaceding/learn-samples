@@ -1,2 +1,2 @@
-# learn-samples
-Samples for Learning
+# learn-demo
+demo for Learning
