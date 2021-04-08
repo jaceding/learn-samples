@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>per.jaceding</groupId>
-    <artifactId>learn-samples</artifactId>
+    <artifactId>learn-demo</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
 
@@ -16,8 +16,8 @@
         <module>demo-web</module>
     </modules>
 
-    <name>learn-samples</name>
-    <description>Samples for learn</description>
+    <name>learn-demo</name>
+    <description>demo for learn</description>
 
     <properties>
         <!-- JDK版本和字符编码 -->
