@@ -22,6 +22,7 @@ public class NettyTcpServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.info("收到消息：" + msg);
+        ctx.fireChannelRead(msg);
     }
 
     @Override

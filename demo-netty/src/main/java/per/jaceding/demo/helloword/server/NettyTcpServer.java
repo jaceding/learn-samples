@@ -48,7 +48,6 @@ public class NettyTcpServer {
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-
             if (channelFuture.isSuccess()) {
                 log.info("TCP Server 启动成功, 端口:{}", port);
                 channelFuture.channel().closeFuture().sync();

@@ -3,6 +3,7 @@ package per.jaceding.demo.heartbeat;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import per.jaceding.demo.heartbeat.client.NettyTcpClient;
+import per.jaceding.demo.heartbeat.proto.Ping;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,14 +23,12 @@ public class ClientApp {
     public static void main(String[] args) throws InterruptedException {
         Channel channel = NettyTcpClient.connect(IP, PORT);
         for (int i = 0; i < 10; i++) {
-            String msg = "Hello" + i;
             if (!channel.isActive()) {
                 log.info("连接中断, 准备重连");
                 channel = NettyTcpClient.connect(IP, PORT);
             }
-            log.info("发送：" + msg);
-            channel.writeAndFlush(msg);
-            TimeUnit.SECONDS.sleep(15);
+            channel.writeAndFlush(Ping.builder().msg("ping").build());
+            TimeUnit.SECONDS.sleep(2);
         }
         channel.close();
         NettyTcpClient.shutdown();

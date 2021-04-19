@@ -8,12 +8,12 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
+import per.jaceding.demo.heartbeat.proto.MessageDecoder;
+import per.jaceding.demo.heartbeat.proto.MessageEncoder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -47,9 +47,10 @@ public class NettyTcpServer {
                             // 设置空闲处理器
                             pipeline.addLast(new IdleStateHandler(10, 0, 0, TimeUnit.SECONDS));
                             // 设置编解码器
-                            pipeline.addLast(new StringDecoder(), new StringEncoder());
+                            pipeline.addLast(new MessageDecoder(), new MessageEncoder());
                             // 设置业务处理器
                             pipeline.addLast(new NettyTcpServerHandler());
+                            pipeline.addLast(new PingHandler());
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();

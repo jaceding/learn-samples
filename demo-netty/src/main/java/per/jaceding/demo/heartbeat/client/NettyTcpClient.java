@@ -5,11 +5,11 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
+import per.jaceding.demo.heartbeat.proto.MessageDecoder;
+import per.jaceding.demo.heartbeat.proto.MessageEncoder;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -45,7 +45,7 @@ public class NettyTcpClient {
                                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                                     ChannelPipeline pipeline = socketChannel.pipeline();
                                     // 设置编解码器
-                                    pipeline.addLast(new StringDecoder(), new StringEncoder());
+                                    pipeline.addLast(new MessageDecoder(), new MessageEncoder());
                                     // 设置业务处理器
                                     pipeline.addLast(new NettyTcpClientHandler());
                                 }

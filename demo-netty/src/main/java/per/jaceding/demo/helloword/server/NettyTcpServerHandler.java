@@ -2,6 +2,7 @@ package per.jaceding.demo.helloword.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,6 +21,11 @@ public class NettyTcpServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        try {
+
+        } finally {
+            ReferenceCountUtil.release(msg);
+        }
         log.info("收到消息：" + msg);
     }
 
