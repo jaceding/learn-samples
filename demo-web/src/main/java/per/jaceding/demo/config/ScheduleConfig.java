@@ -24,15 +24,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 @EnableAsync
 @EnableScheduling
 @Configuration
-public class ScheduleConfiguration implements SchedulingConfigurer, AsyncConfigurer {
-
-    @Value("${spring.application.name}")
-    private String applicationName;
+public class ScheduleConfig implements SchedulingConfigurer, AsyncConfigurer {
 
     /**
      * 默认核心线程数
      */
     public static final int DEFAULT_POOL_SIZE = Runtime.getRuntime().availableProcessors() * 2;
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {

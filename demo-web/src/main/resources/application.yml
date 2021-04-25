@@ -1,29 +1,28 @@
 server:
-  port: 8080
+  port: 8092
+  ip: 127.0.0.1
   servlet:
     context-path: /
-  ip: localhost
 
 # Spring相关配置
 spring:
   aop:
     proxy-target-class: false # 启动JDK动态代理
-  autoconfigure:
   application:
-    name: web-template
+    name: demo-web
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   servlet:
     multipart:
-      max-file-size: 20MB # 单个文件最大值
-      max-request-size: 100MB # 单个请求文件总计最大值
+      max-file-size: 2000MB # 单个文件最大值
+      max-request-size: 2000MB # 单个请求文件总计最大值
   datasource:
+    url: jdbc:mysql://10.69.8.13:3309/weather?useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: kC95aPV3DZOwzT1u
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=Asia/Shanghai
-    username: root
-    password: 78600649AD8DB724BBDAA5162A74EF84
     druid:
       initial-size: 10 # 初始化连接池大小
       min-idle: 5 # 最少空闲连接数
@@ -32,12 +31,7 @@ spring:
       time-between-eviction-runs-millis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       min-evictable-idle-time-millis: 300000 # 配置一个连接在池中最小生存的时间，单位是毫秒
       validation-query: SELECT 'x' # 测试连接
-      test-while-idle: true # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
-      test-on-borrow: false # 申请连接时执行validationQuery检测连接是否有效
-      test-on-return: false # 归还连接时执行validationQuery检测连接是否有效
-      pool-prepared-statements: false # 是否缓存preparedStatement(即PSCache）。PSCache对支持游标的数据库性能提升巨大，如oracle。在mysql下建议关闭
-      max-pool-prepared-statement-per-connection-size: -1 # 要启用PSCache，该值要大于0，大于0时，poolPreparedStatements会自动触发修改为true
-      filters: slf4j,stat,wall # 通过别名的方式配置扩展插件，常用的插件有：监控统计用的stat，防御sql注入的wall
+      filters: slf4j # 通过别名的方式配置扩展插件
       filter:
         slf4j: # 日志配置
           enabled: true
@@ -45,54 +39,39 @@ spring:
           statement-close-after-log-enabled: false
           result-set-open-after-log-enabled: false
           result-set-close-after-log-enabled: false
-        stat: # 监控统计
-          enabled: true
-          db-type: mysql # 数据库类型
-          log-slow-sql: true # 慢SQL
-          slow-sql-millis: 2000 # 慢SQL执行时间
-          merge-sql: true # 合并统计SQL
-        wall: # 预防SQL注入或误操作
-          enabled: true
-          db-type: mysql
-          config:
-            delete-allow: false # 不允许删除数据
-            drop-table-allow: false # 不允许删表
-      stat-view-servlet: # 展示Druid的统计信息
-        enabled: true
-        url-pattern: "/druid/*" # 访问路径
-        reset-enable: false  # 禁止手动重置监控数据
-        login-username: admin # 监控页面用户名
-        login-password: admin # 监控页面密码
-        allow: 127.0.0.1 # IP白名单
-        deny: 127.0.0.1 # IP黑名单
-      web-stat-filter: # 采集web-jdbc关联监控的数据。
-        enabled: true
-        url-pattern: "/*" # 访问路径
-        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*" # 排除不必要的url
-        session-stat-max-count: 1000 # 监控最大session数，默认是1000
-        session-stat-enable: true # 是否启用session的统计功能
-        profile-enable: true # 是否启用监控单个Url调用的sql列表
-        # principalSessionName: session_user_key # 使得druid能够知道当前的session的用户是谁
-        # principalCookieName: cookie_user_key # 如果user信息保存在cookie中，使得druid知道当前的user是谁
   redis:
-    host: 127.0.0.1
-    port: 6379
-    password: 41872410A6EB55CCF34575BC8B317FE0
+    cluster:
+      nodes:
+        - 10.69.8.12:6380
+        - 10.69.8.12:6381
+        - 10.69.8.12:6382
+        - 10.69.8.13:6380
+        - 10.69.8.13:6381
+        - 10.69.8.13:6382
+        - 10.69.8.14:6380
+        - 10.69.8.14:6381
+        - 10.69.8.14:6382
+      max-redirects: 3
+    password: d3l1aGpzZGhrYQ
     database: 0
-    redisson:
-      config: classpath:redisson-single.yml
+    lettuce: #这里标明使用lettuce配置
+      pool:
+        max-active: 8   #连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms  #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8     #连接池中的最大空闲连接
+        min-idle: 0     #连接池中的最小空闲连接
 
 # mybatis-plus相关配置
 mybatis-plus:
   mapper-locations: classpath:/mapperxml/**.xml # mapper xml映射路径
   check-config-location: true # 启动时是否检查MyBatis XML文件是否存在
-  type-aliases-package: per.jaceding.template.domain
+  type-aliases-package: ${system.base-package}.entity
   configuration:
     map-underscore-to-camel-case: true # 配置mybatis自动将数据库下划线映射成驼峰
     call-setters-on-nulls: true  # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
-    local-cacheScope: session # 开启一级缓存
-    cache-enabled: true # 开启二级缓存
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    local-cacheScope: statement # 关闭一级缓存
+    cache-enabled: false # 关闭二级缓存
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 控制台打印SQL
   global-config:
     db-config:
       id-type: auto # 全局默认主键类型
@@ -105,26 +84,29 @@ logging:
 
 # knife4j相关配置
 knife4j:
+  enable: true
   swagger: # swagger相关配置
-    enable: true
-    base-package: per.jaceding.template.controller
+    base-package: ${system.base-package}.controller
     contact-email: 931977674@qq.com
     contact-name: jaceding
     contact-url:
     description: ${spring.application.name} API Documents
     title: ${spring.application.name} API Documents
     url: http://${server.ip}:${server.port}${server.servlet.context-path}doc.html
-    version: v1
+    version: ${system.version}
     parameter-config:
-      - name: Authorization
-        description:
-        type: header
-        data-type: String
-        required: false
-        default-value:
   production: false # 是否生产环境，生产环境会关闭swagger和knife4j
   basic:
     enable: true
     username: admin
     password: admin
 
+# 系统相关配置
+system:
+  base-package: per.jaceding.demo
+  version: v1
+  web-log:
+    enable: true
+  nowapi: # 第三方api接口：https://www.nowapi.com/
+    appkey: 51668
+    sign: f1f709efef44942af87a407803066d9b

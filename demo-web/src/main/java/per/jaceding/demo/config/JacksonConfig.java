@@ -22,13 +22,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Jackson 配置类
+ * Jackson 配置
  *
  * @author jaceding
- * @date 2020/7/21
+ * @date 2021/1/8
  */
 @Configuration
-public class JacksonConfiguration {
+public class JacksonConfig {
 
     @Bean
     public ObjectMapper objectMapper() {

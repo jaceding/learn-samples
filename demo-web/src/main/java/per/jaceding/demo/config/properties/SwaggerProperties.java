@@ -17,12 +17,6 @@ import java.util.List;
 @Component
 @ConfigurationProperties(prefix = "knife4j.swagger")
 public class SwaggerProperties {
-
-    /**
-     * 是否启用Swagger
-     */
-    private boolean enable;
-
     /**
      * 扫描的基本包
      */
@@ -87,23 +81,13 @@ public class SwaggerProperties {
 
         /**
          * 参数类型
-         * header, cookie, body, query
+         * query, header, path, cookie, form, formData, body
          */
-        private String type = "head";
-
-        /**
-         * 数据类型
-         */
-        private String dataType = "String";
+        private String type = "header";
 
         /**
          * 是否必填
          */
-        private boolean required;
-
-        /**
-         * 默认值
-         */
-        private String defaultValue;
+        private boolean required = false;
     }
 }

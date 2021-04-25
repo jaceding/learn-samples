@@ -1,23 +1,30 @@
 package per.jaceding.demo.config;
 
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
+import org.apache.ibatis.reflection.MetaObject;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.time.LocalDateTime;
 
 /**
  * Mybatis Plus 配置类
  *
  * @author jaceding
- * @date 2020/7/21
+ * @date 2021/1/8
  */
-@EnableTransactionManagement
+@MapperScan("per.jaceding.*.mapper")
+@EnableTransactionManagement(proxyTargetClass = true)
 @Configuration
-@MapperScan("per.jaceding.demo.mapper")
-public class MybatisPlusConfiguration {
+public class MybatisPlusConfig {
+    public static final String CREATE_TIME = "createTime";
+    public static final String UPDATE_TIME = "updateTime";
 
     /**
      * 分页插件
@@ -36,5 +43,23 @@ public class MybatisPlusConfiguration {
     @Bean
     public OptimisticLockerInterceptor optimisticLockerInterceptor() {
         return new OptimisticLockerInterceptor();
+    }
+
+    /**
+     * 自动填充功能
+     */
+    @Component
+    static class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
+
+        @Override
+        public void insertFill(MetaObject metaObject) {
+            this.setFieldValByName(CREATE_TIME, LocalDateTime.now(), metaObject);
+            this.setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
+        }
+
+        @Override
+        public void updateFill(MetaObject metaObject) {
+            this.setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
+        }
     }
 }
