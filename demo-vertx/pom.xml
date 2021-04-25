@@ -22,6 +22,7 @@
         <vertx.version>4.0.3</vertx.version>
         <!-- 工具类 -->
         <hutool.version>5.3.8</hutool.version>
+        <log4j2.version>2.13.3</log4j2.version>
         <lombok.version>1.18.20</lombok.version>
     </properties>
 
@@ -48,6 +49,11 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
