@@ -22,16 +22,6 @@
             </Policies>
             <DefaultRolloverStrategy max="50"/>
         </RollingFile>
-
-        <RollingFile name="DruidRollingFile" fileName="${LOG_HOME}/${LOG_NAME}-druid.log"
-                     filePattern="${LOG_HOME}/${LOG_NAME}-Druid-%d{yyyy-MM-dd}_%i.log.gz">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="50MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="50"/>
-        </RollingFile>
     </appenders>
 
     <loggers>
@@ -45,10 +35,6 @@
         </logger>
         <logger name="org.springframework" level="info" additivity="false">
             <AppenderRef ref="Console"/>
-        </logger>
-
-        <logger name="druid.sql.Statement" level="debug" additivity="false">
-            <appender-ref ref="DruidRollingFile"/>
         </logger>
 
         <logger name="org.apache.catalina.startup.DigesterFactory" level="error"/>

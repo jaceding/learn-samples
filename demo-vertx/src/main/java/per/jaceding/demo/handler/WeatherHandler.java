@@ -72,6 +72,10 @@ public class WeatherHandler {
                 });
     }
 
+    public static void hello(RoutingContext ctx) {
+        ctx.response().setStatusCode(200).end("hello world");
+    }
+
     private static RealtimeWeather getRealtimeWeather(Row row) {
         return RealtimeWeather.builder()
                 .id(row.getLong(RealtimeWeather.COL_ID))

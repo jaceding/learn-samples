@@ -43,5 +43,8 @@ public class RestfulServer extends AbstractVerticle {
     private void api(Router router) {
 
         router.get("/wt").blockingHandler(WeatherHandler::getWeather, false);
+
+        router.get("/wt/hello1").blockingHandler(WeatherHandler::hello, true);
+        router.get("/wt/hello2").blockingHandler(WeatherHandler::hello, false);
     }
 }
