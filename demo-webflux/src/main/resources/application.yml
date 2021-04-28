@@ -1,0 +1,24 @@
+server:
+  port: 8093
+  ip: 127.0.0.1
+
+# Spring相关配置
+spring:
+  aop:
+    proxy-target-class: false # 启动JDK动态代理
+  application:
+    name: demo-webflux
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  r2dbc:
+    url: r2dbcs:mysql://10.32.64.129:3309/weather
+    username: root
+    password: ZGp1eW9pZW5zMTU0NjQzyuwn
+    pool:
+      enabled: true
+
+# 日志配置
+logging:
+  config: classpath:log4j2.xml
