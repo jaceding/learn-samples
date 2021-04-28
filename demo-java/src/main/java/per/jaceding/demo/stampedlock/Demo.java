@@ -11,6 +11,37 @@ import java.util.concurrent.locks.StampedLock;
  */
 public class Demo {
 
+    public static void main(String[] args) throws InterruptedException {
+        int nCore = Runtime.getRuntime().availableProcessors() * 2;
+        int nQueue = 100;
+        ExecutorService executorService = new ThreadPoolExecutor(nCore, nCore,
+                0, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(nQueue),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.AbortPolicy());
+        MyList<Integer> myList = new MyList<>();
+        final CountDownLatch cdMaster = new CountDownLatch(1);
+        final CountDownLatch cdWorker = new CountDownLatch(nCore);
+
+        for (int i = 0; i < nCore; i++) {
+            executorService.execute(() -> {
+                try {
+                    cdMaster.await();
+                    myList.add(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    cdWorker.countDown();
+                }
+            });
+        }
+        cdMaster.countDown();
+        cdWorker.await();
+        System.out.println("nCore: " + nCore);
+        System.out.println("size: " + myList.size());
+        executorService.shutdown();
+    }
+
     private static class MyList<T> {
         private final List<T> list = new ArrayList<>();
 
@@ -42,36 +73,5 @@ public class Demo {
                 lock.unlock(stamp);
             }
         }
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        int nCore = Runtime.getRuntime().availableProcessors() * 2;
-        int nQueue = 100;
-        ExecutorService executorService = new ThreadPoolExecutor(nCore, nCore,
-                0, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(nQueue),
-                Executors.defaultThreadFactory(),
-                new ThreadPoolExecutor.AbortPolicy());
-        MyList<Integer> myList = new MyList<>();
-        final CountDownLatch cdMaster = new CountDownLatch(1);
-        final CountDownLatch cdWorker = new CountDownLatch(nCore);
-
-        for (int i = 0; i < nCore; i++) {
-            executorService.execute(() -> {
-                try {
-                    cdMaster.await();
-                    myList.add(1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    cdWorker.countDown();
-                }
-            });
-        }
-        cdMaster.countDown();
-        cdWorker.await();
-        System.out.println("nCore: " + nCore);
-        System.out.println("size: " + myList.size());
-        executorService.shutdown();
     }
 }

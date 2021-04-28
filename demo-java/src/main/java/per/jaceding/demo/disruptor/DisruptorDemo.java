@@ -13,10 +13,6 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class DisruptorDemo {
 
-    private static class Element {
-        String value;
-    }
-
     public static void main(String[] args) {
         // RingBuffer生产工厂,初始化RingBuffer的时候使用
         EventFactory<Element> factory = () -> new Element();
@@ -53,5 +49,9 @@ public class DisruptorDemo {
             }
             LockSupport.parkNanos(1);
         }
+    }
+
+    private static class Element {
+        String value;
     }
 }

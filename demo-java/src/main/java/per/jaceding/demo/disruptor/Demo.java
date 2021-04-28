@@ -17,40 +17,6 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class Demo {
 
-    static class LongEvent {
-        long value;
-    }
-
-    static class LongEventConsumer implements EventHandler<LongEvent> {
-
-        @Override
-        public void onEvent(LongEvent event, long sequence, boolean endOfBatch) throws Exception {
-            System.out.println("event = " + event.value);
-            System.out.println("sequence = " + sequence);
-            System.out.println("endOfBatch = " + endOfBatch);
-        }
-    }
-
-    static class LongEventProducer {
-
-        private final RingBuffer<LongEvent> ringBuffer;
-
-        public LongEventProducer(RingBuffer<LongEvent> ringBuffer) {
-            this.ringBuffer = ringBuffer;
-        }
-
-        private static final EventTranslatorOneArg<LongEvent, ByteBuffer> TRANSLATOR = new EventTranslatorOneArg<LongEvent, ByteBuffer>() {
-            @Override
-            public void translateTo(LongEvent event, long sequence, ByteBuffer byteBuffer) {
-                event.value = byteBuffer.getLong(0);
-            }
-        };
-
-        public void onData(ByteBuffer byteBuffer) {
-            ringBuffer.publishEvent(TRANSLATOR, byteBuffer);
-        }
-    }
-
     public static void main(String[] args) {
         // RingBuffer生产工厂,初始化RingBuffer的时候使用
         EventFactory<LongEvent> factory = LongEvent::new;
@@ -74,6 +40,39 @@ public class Demo {
             byteBuffer.putLong(0, i);
             producer.onData(byteBuffer);
             LockSupport.parkNanos(TimeUnit.SECONDS.toNanos(1));
+        }
+    }
+
+    static class LongEvent {
+        long value;
+    }
+
+    static class LongEventConsumer implements EventHandler<LongEvent> {
+
+        @Override
+        public void onEvent(LongEvent event, long sequence, boolean endOfBatch) throws Exception {
+            System.out.println("event = " + event.value);
+            System.out.println("sequence = " + sequence);
+            System.out.println("endOfBatch = " + endOfBatch);
+        }
+    }
+
+    static class LongEventProducer {
+
+        private static final EventTranslatorOneArg<LongEvent, ByteBuffer> TRANSLATOR = new EventTranslatorOneArg<LongEvent, ByteBuffer>() {
+            @Override
+            public void translateTo(LongEvent event, long sequence, ByteBuffer byteBuffer) {
+                event.value = byteBuffer.getLong(0);
+            }
+        };
+        private final RingBuffer<LongEvent> ringBuffer;
+
+        public LongEventProducer(RingBuffer<LongEvent> ringBuffer) {
+            this.ringBuffer = ringBuffer;
+        }
+
+        public void onData(ByteBuffer byteBuffer) {
+            ringBuffer.publishEvent(TRANSLATOR, byteBuffer);
         }
     }
 }

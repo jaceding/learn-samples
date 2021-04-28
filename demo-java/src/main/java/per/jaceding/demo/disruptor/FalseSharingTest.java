@@ -6,14 +6,6 @@ package per.jaceding.demo.disruptor;
  */
 public class FalseSharingTest {
 
-    private static class Padding {
-        public volatile long p1, p2, p3, p4, p5, p6, p7; //
-    }
-
-    private static class T extends Padding {
-        public volatile long x = 0L;
-    }
-
     public static T[] arr = new T[2];
 
     static {
@@ -39,5 +31,13 @@ public class FalseSharingTest {
         t1.join();
         t2.join();
         System.out.println((System.nanoTime() - start) / 100_0000);
+    }
+
+    private static class Padding {
+        public volatile long p1, p2, p3, p4, p5, p6, p7; //
+    }
+
+    private static class T extends Padding {
+        public volatile long x = 0L;
     }
 }

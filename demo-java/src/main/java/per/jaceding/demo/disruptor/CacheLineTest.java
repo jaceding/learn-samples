@@ -26,6 +26,15 @@ public class CacheLineTest {
 
     static long[][] ARR = new long[ARR_SIZE_1][ARR_SIZE_2];
 
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+                .include(CacheLineTest.class.getSimpleName())
+                .forks(1)
+                .build();
+
+        new Runner(opt).run();
+    }
+
     @Benchmark
     public void cacheLine() {
         long n;
@@ -44,14 +53,5 @@ public class CacheLineTest {
                 n = ARR[j][i];
             }
         }
-    }
-
-    public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder()
-                .include(CacheLineTest.class.getSimpleName())
-                .forks(1)
-                .build();
-
-        new Runner(opt).run();
     }
 }
