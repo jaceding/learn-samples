@@ -72,7 +72,7 @@ public class PageService implements ApplicationRunner {
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.AbortPolicy());
         warmUp();
-        Long index = 10L;
+        Long index = 20L;
         executor.execute(() -> doFromSize(index));
         executor.execute(() -> doScroll(index));
         executor.execute(() -> {
@@ -92,7 +92,7 @@ public class PageService implements ApplicationRunner {
     }
 
     private void doFromSize(Long index) {
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i < 10; i++) {
             List<SearchLogDocument> list = new ArrayList<>();
             Sort sort = Sort.by(Sort.Direction.ASC, "id");
             Pageable pageable;
@@ -113,7 +113,7 @@ public class PageService implements ApplicationRunner {
                         .id(UUID.fastUUID().toString())
                         .type("fromSize")
                         .page((long) page)
-                        .index(index)
+                        .index(index + i)
                         .duration(duration)
                         .createTime(LocalDateTime.now())
                         .build());
@@ -128,7 +128,7 @@ public class PageService implements ApplicationRunner {
     }
 
     private void doScroll(Long index) {
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i < 10; i++) {
             List<SearchLogDocument> list = new ArrayList<>();
             long scrollTimeInMillis = 30;
             Query query = Query.findAll();
@@ -164,7 +164,7 @@ public class PageService implements ApplicationRunner {
                             .id(UUID.fastUUID().toString())
                             .type("scroll")
                             .page((long) page)
-                            .index(index)
+                            .index(index + i)
                             .duration(duration)
                             .createTime(LocalDateTime.now())
                             .build());
@@ -185,7 +185,7 @@ public class PageService implements ApplicationRunner {
     }
 
     private void doSearchAfter(Long index) throws IOException {
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i < 10; i++) {
             List<SearchLogDocument> list = new ArrayList<>();
             int page = 0;
             SearchRequest searchRequest = new SearchRequest("users");
@@ -205,7 +205,7 @@ public class PageService implements ApplicationRunner {
                 long duration = System.currentTimeMillis() - startTime;
                 log.info("page={}, time={}", page, duration);
                 hits = searchResponse.getHits().getHits();
-                if (ArrayUtil.isNotEmpty(hits)) {
+                if (ArrayUtil.isEmpty(hits)) {
                     break;
                 }
                 objects = hits[hits.length - 1].getSortValues();
@@ -217,7 +217,7 @@ public class PageService implements ApplicationRunner {
                         .id(UUID.fastUUID().toString())
                         .type("search_after")
                         .page((long) page)
-                        .index(index)
+                        .index(index + i)
                         .duration(duration)
                         .createTime(LocalDateTime.now())
                         .build());
