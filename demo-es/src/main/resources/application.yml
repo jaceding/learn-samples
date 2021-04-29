@@ -1,0 +1,22 @@
+server:
+  port: 8094
+  ip: 127.0.0.1
+  servlet:
+    context-path: /
+
+# Spring相关配置
+spring:
+  aop:
+    proxy-target-class: false # 启动JDK动态代理
+  application:
+    name: demo-es
+  elasticsearch:
+    rest:
+      uris:
+        - 10.86.52.74:9200
+        - 10.86.52.77:9200
+        - 10.86.52.208:9200
+
+# 日志配置
+logging:
+  config: classpath:log4j2.xml
