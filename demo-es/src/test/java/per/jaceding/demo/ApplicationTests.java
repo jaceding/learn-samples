@@ -234,4 +234,9 @@ public class ApplicationTests {
         log.info("size={},min={},max={},avg={}", list.size(), min, max, (count / list.size()));
         searchLogRepository.saveAll(list);
     }
+
+    @Test
+    public void delete() {
+        searchLogRepository.deleteAll();
+    }
 }

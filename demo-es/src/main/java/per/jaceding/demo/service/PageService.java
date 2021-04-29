@@ -72,7 +72,7 @@ public class PageService implements ApplicationRunner {
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.AbortPolicy());
         warmUp();
-        Long index = 20L;
+        Long index = 30L;
         executor.execute(() -> doFromSize(index));
         executor.execute(() -> doScroll(index));
         executor.execute(() -> {
@@ -113,6 +113,11 @@ public class PageService implements ApplicationRunner {
                         .id(UUID.fastUUID().toString())
                         .type("fromSize")
                         .page((long) page)
+                        .page10((long) (page / 10))
+                        .page50((long) (page / 50))
+                        .page100((long) (page / 100))
+                        .page500((long) (page / 500))
+                        .page1000((long) (page / 1000))
                         .index(index + i)
                         .duration(duration)
                         .createTime(LocalDateTime.now())
@@ -130,7 +135,7 @@ public class PageService implements ApplicationRunner {
     private void doScroll(Long index) {
         for (int i = 0; i < 10; i++) {
             List<SearchLogDocument> list = new ArrayList<>();
-            long scrollTimeInMillis = 30;
+            long scrollTimeInMillis = 10000;
             Query query = Query.findAll();
             Sort sort = Sort.by(Sort.Direction.ASC, "id");
             query.setPageable(PageRequest.of(0, 10, sort));
@@ -164,6 +169,11 @@ public class PageService implements ApplicationRunner {
                             .id(UUID.fastUUID().toString())
                             .type("scroll")
                             .page((long) page)
+                            .page10((long) (page / 10))
+                            .page50((long) (page / 50))
+                            .page100((long) (page / 100))
+                            .page500((long) (page / 500))
+                            .page1000((long) (page / 1000))
                             .index(index + i)
                             .duration(duration)
                             .createTime(LocalDateTime.now())
@@ -217,6 +227,11 @@ public class PageService implements ApplicationRunner {
                         .id(UUID.fastUUID().toString())
                         .type("search_after")
                         .page((long) page)
+                        .page10((long) (page / 10))
+                        .page50((long) (page / 50))
+                        .page100((long) (page / 100))
+                        .page500((long) (page / 500))
+                        .page1000((long) (page / 1000))
                         .index(index + i)
                         .duration(duration)
                         .createTime(LocalDateTime.now())
