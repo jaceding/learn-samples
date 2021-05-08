@@ -1,7 +1,6 @@
 package per.jaceding.demo.consumer;
 
 import org.apache.kafka.clients.consumer.*;
-import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import per.jaceding.demo.Message;
 
@@ -43,8 +42,6 @@ public class ConsumerDemo {
                     System.out.println("topic = " + record.topic() + ", partition = " + record.partition()
                             + ", offset = " + record.offset() + ", key = " + record.key()
                             + ", value = " + record.value());
-                    for (TopicPartition partition : records.partitions()) {
-                    }
                 }
             }
         } catch (Exception e) {

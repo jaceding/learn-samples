@@ -11,7 +11,6 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.domain.Page;
@@ -48,17 +47,20 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class PageService implements ApplicationRunner {
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
-    @Autowired
-    SearchLogRepository searchLogRepository;
+    final SearchLogRepository searchLogRepository;
 
-    @Autowired
-    ElasticsearchRestTemplate elasticsearchRestTemplate;
+    final ElasticsearchRestTemplate elasticsearchRestTemplate;
 
-    @Autowired
-    RestHighLevelClient restHighLevelClient;
+    final RestHighLevelClient restHighLevelClient;
+
+    public PageService(UserRepository userRepository, SearchLogRepository searchLogRepository, ElasticsearchRestTemplate elasticsearchRestTemplate, RestHighLevelClient restHighLevelClient) {
+        this.userRepository = userRepository;
+        this.searchLogRepository = searchLogRepository;
+        this.elasticsearchRestTemplate = elasticsearchRestTemplate;
+        this.restHighLevelClient = restHighLevelClient;
+    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
