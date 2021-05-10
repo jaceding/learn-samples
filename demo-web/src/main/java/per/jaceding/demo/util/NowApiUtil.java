@@ -1,5 +1,6 @@
 package per.jaceding.demo.util;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -95,7 +96,7 @@ public class NowApiUtil {
                         .rainfall(object.getDouble("wtRainfall"))
                         .pressure(object.getDouble("wtPressurel"))
                         .build());
-                fcList.add(ForecastWeather.builder()
+                ForecastWeather forecastWeather = ForecastWeather.builder()
                         .date(date)
                         .wbCityCode(object.getStr("cityid"))
                         .provinceName(object.getStr("area_1"))
@@ -118,7 +119,14 @@ public class NowApiUtil {
                         .nightWp(object.getStr("wtWinpNm2"))
                         .sunriseTime(LocalTime.parse(object.getStr("wtSunr"), TIME_FORMATTER))
                         .sunsetTime(LocalTime.parse(object.getStr("wtSuns"), TIME_FORMATTER))
-                        .build());
+                        .build();
+                if (StrUtil.isNotBlank(object.getStr("wtSunr"))) {
+                    forecastWeather.setSunriseTime(LocalTime.parse(object.getStr("wtSunr"), TIME_FORMATTER));
+                }
+                if (StrUtil.isNotBlank(object.getStr("wtSuns"))) {
+                    forecastWeather.setSunsetTime(LocalTime.parse(object.getStr("wtSuns"), TIME_FORMATTER));
+                }
+                fcList.add(forecastWeather);
             }
             params.clear();
             params.put(REALTIME_KEY, rwList);
