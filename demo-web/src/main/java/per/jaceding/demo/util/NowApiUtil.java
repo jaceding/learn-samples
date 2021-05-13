@@ -117,8 +117,6 @@ public class NowApiUtil {
                         .dayWp(object.getStr("wtWinpNm1"))
                         .nightWpCode(object.getStr("wtWinpId2"))
                         .nightWp(object.getStr("wtWinpNm2"))
-                        .sunriseTime(LocalTime.parse(object.getStr("wtSunr"), TIME_FORMATTER))
-                        .sunsetTime(LocalTime.parse(object.getStr("wtSuns"), TIME_FORMATTER))
                         .build();
                 if (StrUtil.isNotBlank(object.getStr("wtSunr"))) {
                     forecastWeather.setSunriseTime(LocalTime.parse(object.getStr("wtSunr"), TIME_FORMATTER));
