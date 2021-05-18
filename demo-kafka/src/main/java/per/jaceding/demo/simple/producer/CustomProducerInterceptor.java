@@ -1,9 +1,9 @@
-package per.jaceding.demo.producer;
+package per.jaceding.demo.simple.producer;
 
 import org.apache.kafka.clients.producer.ProducerInterceptor;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
-import per.jaceding.demo.Message;
+import per.jaceding.demo.simple.Message;
 
 import java.util.Map;
 import java.util.concurrent.atomic.LongAdder;

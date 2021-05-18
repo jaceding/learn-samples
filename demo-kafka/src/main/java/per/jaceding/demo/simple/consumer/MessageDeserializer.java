@@ -1,8 +1,8 @@
-package per.jaceding.demo.consumer;
+package per.jaceding.demo.simple.consumer;
 
 import org.apache.kafka.common.serialization.Deserializer;
-import per.jaceding.demo.Message;
 import per.jaceding.demo.ProtostuffUtils;
+import per.jaceding.demo.simple.Message;
 
 /**
  * 自定义 Message 反序列化器

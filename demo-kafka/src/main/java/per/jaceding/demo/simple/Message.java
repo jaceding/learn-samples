@@ -1,4 +1,4 @@
-package per.jaceding.demo;
+package per.jaceding.demo.simple;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package per.jaceding.demo.producer;
+package per.jaceding.demo.simple.producer;
 
 import org.apache.kafka.clients.producer.Partitioner;
 import org.apache.kafka.common.Cluster;

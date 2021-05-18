@@ -1,8 +1,8 @@
-package per.jaceding.demo.producer;
+package per.jaceding.demo.simple.producer;
 
 import org.apache.kafka.common.serialization.Serializer;
-import per.jaceding.demo.Message;
 import per.jaceding.demo.ProtostuffUtils;
+import per.jaceding.demo.simple.Message;
 
 /**
  * 自定义 Message 序列化器

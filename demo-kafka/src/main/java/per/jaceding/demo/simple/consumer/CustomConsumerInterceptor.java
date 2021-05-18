@@ -1,4 +1,4 @@
-package per.jaceding.demo.consumer;
+package per.jaceding.demo.simple.consumer;
 
 import org.apache.kafka.clients.consumer.ConsumerInterceptor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

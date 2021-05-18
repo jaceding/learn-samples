@@ -1,4 +1,4 @@
-package per.jaceding.demo.consumer;
+package per.jaceding.demo.simple.consumer;
 
 import org.apache.kafka.clients.consumer.internals.PartitionAssignor;
 import org.apache.kafka.common.Cluster;
