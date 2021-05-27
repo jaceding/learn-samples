@@ -17,6 +17,7 @@
         <module>demo-vertx</module>
         <module>demo-webflux</module>
         <module>demo-es</module>
+        <module>demo-zk</module>
     </modules>
 
     <name>learn-demo</name>
