@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * 测试实现不同缓存行填充的性能差距
  *
  * @author jaceding
- * @date 2021/6/5
+ * @date 2020/4/8
  */
 @SuppressWarnings("all")
 @BenchmarkMode({Mode.Throughput})
@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 public class CacheLineTest2 {
+
+    public static final long LOOP = 1000_0000L;
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
@@ -35,12 +37,12 @@ public class CacheLineTest2 {
     public void cacheLine1() throws InterruptedException {
         Padding1 padding = new Padding1();
         Thread t1 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
         Thread t2 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
@@ -54,12 +56,12 @@ public class CacheLineTest2 {
     public void cacheLine2() throws InterruptedException {
         Padding2 padding = new Padding2();
         Thread t1 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
         Thread t2 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
@@ -73,12 +75,12 @@ public class CacheLineTest2 {
     public void cacheLine3() throws InterruptedException {
         Padding3 padding = new Padding3();
         Thread t1 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
         Thread t2 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
@@ -92,12 +94,12 @@ public class CacheLineTest2 {
     public void cacheLine4() throws InterruptedException {
         Padding4 padding = new Padding4();
         Thread t1 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
         Thread t2 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
@@ -111,12 +113,12 @@ public class CacheLineTest2 {
     public void cacheLine5() throws InterruptedException {
         Padding5 padding = new Padding5();
         Thread t1 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
         Thread t2 = new Thread(() -> {
-            for (long i = 0; i < 1000_0000L; i++) {
+            for (long i = 0; i < LOOP; i++) {
                 padding.x = i;
             }
         });
