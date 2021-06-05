@@ -9,7 +9,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 缓存行测试
+ * 测试缓存行对性能的影响
  *
  * @author jaceding
  * @date 2021/4/7
