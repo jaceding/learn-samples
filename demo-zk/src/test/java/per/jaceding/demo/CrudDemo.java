@@ -18,7 +18,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class CrudDemo {
 
-    private static final String ZkServer = "10.69.8.12:2181,10.69.8.13:2181,10.69.81.14:2181";
+    //    private static final String ZkServer = "10.69.8.12:2181,10.69.8.13:2181,10.69.81.14:2181";
+    private static final String ZkServer = "10.69.8.12:2181";
 
     private static CuratorFramework getClient() {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
@@ -92,10 +93,29 @@ public class CrudDemo {
         try (CuratorFramework client = getClient()) {
             client.start();
             String path = "/demo";
-            for (int i = 0; i < 100; i++) {
-                String s = new String(client.getData().forPath(path));
-                log.info(s);
-            }
+            String s = new String(client.getData().forPath(path));
+            log.info(s);
+        }
+    }
+
+    @Test
+    public void setDate() throws Exception {
+        try (CuratorFramework client = getClient()) {
+            client.start();
+            String path = "/demo1";
+            String payload = "abc";
+            client.setData().forPath(path, payload.getBytes());
+        }
+    }
+
+    @Test
+    public void testSync() throws Exception {
+        try (CuratorFramework client = getClient()) {
+            client.start();
+            String path = "/demo";
+            client.sync().forPath(path);
+            String s = new String(client.getData().forPath(path));
+            log.info(s);
         }
     }
 }
