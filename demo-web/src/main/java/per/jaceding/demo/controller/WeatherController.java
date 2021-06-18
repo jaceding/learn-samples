@@ -41,9 +41,4 @@ public class WeatherController {
         }
         return ResponseEntity.ok(weatherService.getByWbCityCode(wbCityCode));
     }
-
-    @GetMapping("hello")
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("hello world");
-    }
 }

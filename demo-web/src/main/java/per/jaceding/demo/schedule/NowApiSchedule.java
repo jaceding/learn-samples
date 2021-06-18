@@ -3,7 +3,6 @@ package per.jaceding.demo.schedule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import per.jaceding.demo.entity.ForecastWeather;
 import per.jaceding.demo.entity.RealtimeWeather;
 import per.jaceding.demo.service.ForecastWeatherService;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @SuppressWarnings("unchecked")
-@Component
+//@Component
 public class NowApiSchedule {
 
     private final RealtimeWeatherService realtimeWeatherService;

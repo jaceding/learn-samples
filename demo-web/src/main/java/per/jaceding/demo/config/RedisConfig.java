@@ -4,8 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
@@ -25,8 +27,8 @@ import java.util.Arrays;
  * @author jaceding
  * @date 2021/1/20
  */
-//@EnableCaching 测试项目关闭缓存
-//@Configuration
+@EnableCaching
+@Configuration
 public class RedisConfig {
 
     private final ObjectMapper objectMapper;
